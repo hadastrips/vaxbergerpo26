@@ -1,0 +1,646 @@
+html_content = """<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לו"ז טיול - משפחת וקסברגר</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --turquoise: #20b2aa; /* טורקיז */
+            --brown: #8b4513;     /* חום */
+            --green: #2e8b57;     /* ירוק */
+            --bg-color: #f7f9fa;  /* אפור/בהיר עדין */
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Assistant', sans-serif;
+        }
+
+        body {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: var(--bg-color);
+            color: #333;
+            padding-bottom: 30px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 25px 15px 15px;
+        }
+
+        .logo {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 4px solid var(--turquoise);
+            object-fit: cover;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: var(--brown);
+            background-color: transparent;
+            font-size: 24px;
+            margin: 0 0 5px 0;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: var(--turquoise);
+            background-color: transparent;
+            font-size: 18px;
+            margin: 0 0 20px 0;
+            font-weight: 600;
+        }
+
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .quick-links a {
+            background-color: var(--turquoise);
+            color: var(--white);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: opacity 0.2s;
+        }
+
+        .quick-links a:hover {
+            opacity: 0.9;
+        }
+
+        /* Day Cards */
+        .day-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            margin: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            border-top: 5px solid var(--turquoise);
+        }
+
+        .day-title {
+            color: var(--brown);
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Smart Dropdowns */
+        details {
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #eaeaea;
+        }
+
+        summary {
+            background-color: var(--white);
+            color: var(--brown);
+            padding: 15px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            list-style: none;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '\\f078'; /* fa-chevron-down */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--turquoise);
+            font-size: 14px;
+            transition: transform 0.3s;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        details[open] summary {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .details-content {
+            padding: 15px;
+            background-color: var(--white);
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        /* Info Rows */
+        .info-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-row i {
+            color: var(--turquoise);
+            width: 24px;
+            text-align: center;
+            margin-left: 10px;
+            font-size: 16px;
+            margin-top: 3px;
+        }
+
+        .info-text {
+            flex: 1;
+        }
+
+        .nav-link {
+            color: var(--green);
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .optional-badge {
+            font-size: 12px;
+            background-color: #fdf0d5;
+            color: var(--brown);
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        /* Cost Table */
+        .cost-section {
+            margin: 25px 15px;
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            border-top: 5px solid var(--green);
+        }
+
+        .cost-section h3 {
+            color: var(--green);
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #eaeaea;
+            padding: 10px 8px;
+            text-align: right;
+        }
+
+        th {
+            background-color: var(--turquoise);
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--bg-color);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 15px;
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+        }
+
+        .signature {
+            color: var(--turquoise);
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .copyright {
+            color: #777;
+            font-size: 12px;
+            margin: 0;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="1.jpg" alt="Logo" class="logo">
+        <h1>משפחת וקסברגר מטיילים בפולין וסלובקיה</h1>
+        <h2>30/7-7/8/2026</h2>
+        
+        <div class="quick-links">
+            <a href="https://maps.app.goo.gl/ATWCMBkjXkeKvPvJA" target="_blank"><i class="fa-solid fa-bed"></i> מקום לינה</a>
+            <a href="https://maps.app.goo.gl/LYochktLJrhtBn7R8" target="_blank"><i class="fa-solid fa-map-location-dot"></i> מפת הטיול</a>
+            <a href="https://maps.app.goo.gl/ihx3zDvn7YruTUEK9" target="_blank"><i class="fa-solid fa-cart-shopping"></i> סופר</a>
+            <a href="https://maps.app.goo.gl/iJP59T3se3doeSma6" target="_blank"><i class="fa-solid fa-synagogue"></i> מניין</a>
+            <a href="https://www.accuweather.com/en/pl/zakopane/264492/daily-weather-forecast/264492" target="_blank"><i class="fa-solid fa-cloud-sun"></i> מזג אוויר</a>
+        </div>
+    </header>
+
+    <!-- Day 1 -->
+    <div class="day-card">
+        <h3 class="day-title"><i class="fa-solid fa-plane-arrival"></i> יום חמישי 30/7 - הגעה לפולין</h3>
+        
+        <details>
+            <summary>8:00 - 14:00 | טיסה לקרקוב</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">8:00 הגעה לשדה, 11:00 המראה, 14:00 נחיתה בקרקוב.</div></div>
+            </div>
+        </details>
+        
+        <details>
+            <summary>15:30 | איסוף רכב</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-car"></i><div class="info-text">חברת Kaizen. דלפקי השכרה בקומה שניה אחרי היציאה לאולם קבלת הפנים.</div></div>
+            </div>
+        </details>
+
+        <details>
+            <summary>17:30 | הגעה למקום הלינה</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">התארגנות ומומלץ לעשות קניות בסופר.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/ATWCMBkjXkeKvPvJA" target="_blank" class="nav-link">ניווט למקום הלינה <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="day-card">
+        <h3 class="day-title"><i class="fa-solid fa-mountain"></i> יום שישי 31/7 - זקופנה</h3>
+        
+        <div class="info-row" style="padding: 0 15px 15px;"><i class="fa-solid fa-person-walking-luggage" style="color: var(--brown);"></i><div class="info-text"><strong>10:30 יציאה לדרך</strong></div></div>
+
+        <details>
+            <summary>11:30 - 13:30 | הליכה בשמיים</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">מגדל תצפית והליכה אתגרית בגובה.</div></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">שעות פתיחה: 10:00-19:00</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">מבוגר 76 PLN, ילד 58 PLN, משפחתי (זוג+1) 194 PLN.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/py9UmXSwbyZ7iNw78" target="_blank" class="nav-link">ניווט בוויז/מפות <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+
+        <details>
+            <summary>14:00 - 16:00 | מוזיאון אשליות <span class="optional-badge">אופציונלי</span></summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">שעות פתיחה: 10:00-20:00</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">מבוגר 49 PLN, ילד 43 PLN, משפחתי (זוג+1) 110 PLN.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/JB6f72M6fvmB1AgF9" target="_blank" class="nav-link">ניווט בוויז/מפות <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="day-card">
+        <h3 class="day-title"><i class="fa-solid fa-candles-holiday"></i> שבת 1/8 - שבת מנוחה</h3>
+        <div style="padding: 0 15px;">שבת שלום! מנוחה וצבירת כוחות להמשך הטיול.</div>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="day-card">
+        <h3 class="day-title"><i class="fa-solid fa-tree"></i> יום ראשון 2/8 - צמרות העצים סלובקיה</h3>
+        
+        <div class="info-row" style="padding: 0 15px 5px;"><i class="fa-solid fa-cloud-sun"></i><div class="info-text"><a href="https://www.accuweather.com/en/sk/zdiar/2-300297_1_al/daily-weather-forecast/2-300297_1_al" target="_blank" class="nav-link">תחזית מזג אוויר - טטרה גבוהים</a></div></div>
+        <div class="info-row" style="padding: 0 15px 15px;"><i class="fa-solid fa-person-walking-luggage" style="color: var(--brown);"></i><div class="info-text"><strong>10:30 יציאה לדרך</strong></div></div>
+
+        <details>
+            <summary>11:30 - 14:30 | צמרות העצים</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">כולל רכבל, צמרות עצים ופארק ילדים.</div></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">שעות פתיחה: 9:00-18:00</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">32€ לאדם. משפחתי (זוג+2) 89€, כל ילד נוסף 26€. תשלום מגיל 3.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/5Mw5tEt26rM9dgVa6" target="_blank" class="nav-link">ניווט לחניה <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+
+        <details>
+            <summary>15:00 - 16:30 | Family Park Strachankovo <span class="optional-badge">אופציונלי</span></summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">חיות משק ומתנפחים לילדים.</div></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">שעות פתיחה: 10:00-17:00</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">מבוגר 5€, ילד 8€, משפחתי (זוג+1) 15€. תשלום מגיל 3.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/q5AzSTm84GaBpnrG6" target="_blank" class="nav-link">ניווט למיקום <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+
+        <details>
+            <summary>16:30 - 17:00 | תצפית הרי הטטרה</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">עצירה לסוף יום מול הנוף. חניה וכניסה בחינם.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/1j6zJpdQa3q6wBZe6" target="_blank" class="nav-link">ניווט לתצפית <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+
+        <div class="info-row" style="padding: 15px 15px 0;"><i class="fa-solid fa-house" style="color: var(--brown);"></i><div class="info-text"><strong>18:00 חזרה לדירה</strong></div></div>
+    </div>
+
+    <!-- Day 5 -->
+    <div class="day-card">
+        <h3 class="day-title"><i class="fa-solid fa-water"></i> יום שני 3/8 - עמק והר</h3>
+        
+        <details>
+            <summary>10:30 - 13:30 | עמק קושליצקו</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">מסלול קליל בעמק ירוק לצד נחל. לא מעגלי - שעה וחצי הליכה לכל צד. ניתן לפגוש כבשים וברווזים.</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">עלות: 9 PLN לאדם.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/qPzkrgWrGQa9HuHw5" target="_blank" class="nav-link">ניווט לעמק <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+
+        <details>
+            <summary>14:00 - 18:00 | הר גובלוקה</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">עליה בפוניקולר. בהר יש פארק חבלים, קארטינג, חוות אלפקות, דוכני מזכרות ותצפיות.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/eFRPLoNuz4gwxQU76" target="_blank" class="nav-link">חניה סמוך לפוניקולר <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+                
+                <div class="info-row"><strong>פוניקולר להר:</strong></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">9:00-20:00</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">מבוגר 49 PLN, ילד (5-26) 39 PLN. רכישה אונליין מוזילה ב-4 זלוטי. <a href="https://www.sklep.pkl.pl/en/product-groups/index,8,tickets.html" target="_blank" style="color:var(--turquoise)">לינק לרכישה</a></div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/aCAQnZQPWFT5N7hj7" target="_blank" class="nav-link">ניווט לפוניקולר</a></div></div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+
+                <div class="info-row"><strong>פארק חבלים בהר:</strong></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">10:00-18:00</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">מעל 140 ס"מ: 50 PLN. גובה 110-140 ס"מ: 40 PLN.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/JMEU1B9ReRvNvxYL8" target="_blank" class="nav-link">ניווט לפארק חבלים</a></div></div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+
+                <div class="info-row"><strong>חוות אלפקות בהר:</strong></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">11:00-18:00</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">כניסה: 20 PLN.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/o9BWHwKHb859m5TD9" target="_blank" class="nav-link">ניווט לחוות אלפקות</a></div></div>
+            </div>
+        </details>
+
+        <details>
+            <summary>18:00 - 19:00 | מדרחוב זקופנה <span class="optional-badge">אופציונלי</span></summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">מדרחוב תוסס ויפה עם חנויות אומנות.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/ic8tGpU788mJW9PQ8" target="_blank" class="nav-link">ניווט לחניה <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+        
+        <div class="info-row" style="padding: 15px 15px 0;"><i class="fa-solid fa-house" style="color: var(--brown);"></i><div class="info-text"><strong>19:30 חזרה לדירה</strong></div></div>
+    </div>
+
+    <!-- Day 6 -->
+    <div class="day-card">
+        <h3 class="day-title"><i class="fa-solid fa-sailboat"></i> יום שלישי 4/8 - אגם צורשטיין</h3>
+        
+        <div class="info-row" style="padding: 0 15px 5px;"><i class="fa-solid fa-cloud-sun"></i><div class="info-text"><a href="https://www.accuweather.com/en/pl/czorsztyn/1411082/daily-weather-forecast/1411082" target="_blank" class="nav-link">תחזית מזג אוויר - האגם</a></div></div>
+        <div class="info-row" style="padding: 0 15px 15px;"><i class="fa-solid fa-person-walking-luggage" style="color: var(--brown);"></i><div class="info-text"><strong>10:30 יציאה לדרך</strong></div></div>
+
+        <details>
+            <summary>11:30 - 12:30 | מגלשות הרים</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">מגלשות הרים קצרות וכיפיות עם נוף לאגם.</div></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">10:00-18:00</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">15 PLN לסיבוב, 135 PLN ל-10 סיבובים. חניה חינם.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/easdRrU4Y6PPbhMP8" target="_blank" class="nav-link">ניווט למגלשות <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+
+        <details>
+            <summary>12:30 - 15:30 | אגם צורשטיין ואטרקציות</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">טיילת על האגם (כניסה חופשית).</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/RhWR85iymoMSVp3p8" target="_blank" class="nav-link">חניה לאגם</a></div></div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+
+                <div class="info-row"><strong>טירת צורשטיין <span class="optional-badge">אופציונלי</span></strong></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">9:00-18:00</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">מבוגר 12 PLN, ילד (מגיל 7) 6 PLN.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/H3bnaWRvEuH55Pqn8" target="_blank" class="nav-link">ניווט לטירה</a></div></div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+
+                <div class="info-row"><strong>אומגה על האגם <span class="optional-badge">אופציונלי</span></strong></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">10:30-18:00</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">40 PLN לאדם (הלוך חזור).</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/D7kUMkUoUD2GTyg86" target="_blank" class="nav-link">ניווט לאומגה</a></div></div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+
+                <div class="info-row"><strong>שייט אגם צורשטיין <span class="optional-badge">אופציונלי</span></strong></div>
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">שייט של כ-15 דק' לצד.</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">הלוך חזור: מבוגר 38 PLN, ילד 32 PLN (תשלום מגיל 4).</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/p5RLyyVo2gatrStEA" target="_blank" class="nav-link">ניווט לשייט</a></div></div>
+            </div>
+        </details>
+
+        <details>
+            <summary>15:00 - 17:30 | רכבל פתוח</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">עליה ברכבל פתוח לנוף מדהים, טיול קליל ופיקניק מול הנוף.</div></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">9:00-19:00</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">מבוגר 39 PLN, ילד 32 PLN (מגיל 5). משפחתי (זוג+1) 99 PLN.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/CMMU2wkeAaQ1qh4H9" target="_blank" class="nav-link">ניווט לרכבל <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+        
+        <div class="info-row" style="padding: 15px 15px 0;"><i class="fa-solid fa-house" style="color: var(--brown);"></i><div class="info-text"><strong>18:30 חזרה לדירה</strong></div></div>
+    </div>
+
+    <!-- Day 7 -->
+    <div class="day-card">
+        <h3 class="day-title"><i class="fa-solid fa-cable-car"></i> יום רביעי 5/8 - טטרה לומניצקי ואגמים</h3>
+        
+        <div class="info-row" style="padding: 0 15px 5px;"><i class="fa-solid fa-cloud-sun"></i><div class="info-text"><a href="https://www.accuweather.com/en/sk/zdiar/2-300297_1_al/daily-weather-forecast/2-300297_1_al" target="_blank" class="nav-link">תחזית מזג אוויר - טטרה</a></div></div>
+        <div class="info-row" style="padding: 0 15px 15px;"><i class="fa-solid fa-person-walking-luggage" style="color: var(--brown);"></i><div class="info-text"><strong>10:30 יציאה לדרך</strong></div></div>
+
+        <details>
+            <summary>11:30 - 14:30 | רכבל טטרה וגו קארט <span class="optional-badge">אופציונלי</span></summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">עליה ברכבל לאגם סקאלנאטה פלסו (תחנה שניה) וירידה בגו קארט (מתחנה ראשונה).</div></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">8:00-18:30 (קופות נסגרות ב-15:30)</div></div>
+                <div class="info-row"><i class="fa-solid fa-coins"></i><div class="info-text">רכבל: מבוגר 34€, גיל 12-18 27€, גיל 6-12 24€, עד 6 חינם. גו קארט: 16€ לנוסע.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/XTPMBbCAKJmUX5F57" target="_blank" class="nav-link">ניווט למקום <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+
+        <details>
+            <summary>15:00 - 17:30 | אגם שטרבסקה פלסו</summary>
+            <div class="details-content">
+                <div class="info-row"><i class="fa-solid fa-circle-info"></i><div class="info-text">אגם יפהפה מוקף הרים. אפשרות לשייט סירות משוטים במקום (כניסה חופשית).</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/vvYBDN1vSv8aXe466" target="_blank" class="nav-link">ניווט לחניה <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+            </div>
+        </details>
+    </div>
+
+    <!-- Day 8 -->
+    <div class="day-card">
+        <h3 class="day-title"><i class="fa-solid fa-city"></i> יום חמישי 6/8 - מעבר לקרקוב</h3>
+        
+        <div class="info-row" style="padding: 0 15px 15px;"><i class="fa-solid fa-suitcase" style="color: var(--brown);"></i><div class="info-text"><strong>11:00 צ'ק אאוט. מעבר לקרקוב.</strong></div></div>
+
+        <details>
+            <summary>קניות בשובנו לקרקוב</summary>
+            <div class="details-content">
+                <div class="info-row"><strong>קניון אאוטלט מותגים (15 דק' מהשדה):</strong></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">10:00-21:00 (חניה חינם)</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/UP1xRV6ioEZckQW59" target="_blank" class="nav-link">ניווט לאאוטלט</a></div></div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+
+                <div class="info-row"><strong>קניון גדול עם פריימרק (30 דק' מהשדה):</strong></div>
+                <div class="info-row"><i class="fa-regular fa-clock"></i><div class="info-text">10:00-21:00 (חניה חינם)</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/2TxHy2DFiFzCJ4av8" target="_blank" class="nav-link">ניווט לקניון</a></div></div>
+            </div>
+        </details>
+
+        <details>
+            <summary>מסעדות כשרות בקרקוב</summary>
+            <div class="details-content">
+                <div class="info-row"><strong>הכנסת אורחים זולדן:</strong></div>
+                <div class="info-row"><i class="fa-solid fa-utensils"></i><div class="info-text">מנות בשריות קבועות (50 יורו לאדם). 9:00-23:00.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/JTFoaYwW1E48hrzx9" target="_blank" class="nav-link">ניווט לזולדן</a></div></div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+
+                <div class="info-row"><strong>כושר דילייט (עציוני):</strong></div>
+                <div class="info-row"><i class="fa-solid fa-utensils"></i><div class="info-text">בשרי לפי תפריט. 12:00-21:00.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/g8ajNA5nDXF1a2po6" target="_blank" class="nav-link">ניווט לכושר דילייט</a></div></div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+
+                <div class="info-row"><strong>פלאפל שלנו:</strong></div>
+                <div class="info-row"><i class="fa-solid fa-utensils"></i><div class="info-text">פלאפל, פיצות ושקשוקה. 9:30-20:00.</div></div>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><div class="info-text"><a href="https://maps.app.goo.gl/7CcinoNADCHpyYj5A" target="_blank" class="nav-link">ניווט לפלאפל שלנו</a></div></div>
+            </div>
+        </details>
+    </div>
+
+    <!-- Day 9 -->
+    <div class="day-card">
+        <h3 class="day-title"><i class="fa-solid fa-plane-departure"></i> יום שישי 7/8 - חזרה הביתה</h3>
+        <div class="info-row" style="padding: 0 15px;"><i class="fa-solid fa-road"></i><div class="info-text">2:30 יציאה לשדה התעופה</div></div>
+        <div class="info-row" style="padding: 0 15px;"><i class="fa-solid fa-key"></i><div class="info-text">2:45 החזרת הרכב בשדה</div></div>
+        <div class="info-row" style="padding: 0 15px;"><i class="fa-solid fa-plane-up"></i><div class="info-text">5:40 המראה לישראל</div></div>
+        <div class="info-row" style="padding: 15px 15px 0; text-align: center; color: var(--green); font-weight: bold; justify-content: center;">טיסה נעימה!</div>
+    </div>
+
+    <!-- Cost Table -->
+    <div class="cost-section">
+        <h3><i class="fa-solid fa-calculator"></i> תחשיב עלויות למשפחה (זוג + 6 ילדים)</h3>
+        <p style="font-size: 13px; color: #555;">החישוב מתבסס על: זוג + גילאי 18, 16, 13, 10, 6 ותינוק. שערי חליפין משוערים: 1 זלוטי = 0.8 ש"ח | 1 יורו = 3.5 ש"ח.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>אתר/פעילות</th>
+                    <th>עלות מקומית</th>
+                    <th>עלות בש"ח</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>הליכה בשמיים</td>
+                    <td>426 PLN</td>
+                    <td>341 ₪</td>
+                </tr>
+                <tr>
+                    <td>מוזיאון אשליות (אופציונלי)</td>
+                    <td>282 PLN</td>
+                    <td>226 ₪</td>
+                </tr>
+                <tr>
+                    <td>צמרות העצים</td>
+                    <td>167 €</td>
+                    <td>585 ₪</td>
+                </tr>
+                <tr>
+                    <td>פארק Strachankovo (אופציונלי)</td>
+                    <td>47 €</td>
+                    <td>165 ₪</td>
+                </tr>
+                <tr>
+                    <td>עמק קושליצקו</td>
+                    <td>63 PLN</td>
+                    <td>50 ₪</td>
+                </tr>
+                <tr>
+                    <td>פוניקלור הר גובלוקה</td>
+                    <td>293 PLN</td>
+                    <td>234 ₪</td>
+                </tr>
+                <tr>
+                    <td>טירת צורשטיין (אופציונלי)</td>
+                    <td>48 PLN</td>
+                    <td>38 ₪</td>
+                </tr>
+                <tr>
+                    <td>שייט אגם צורשטיין (אופציונלי)</td>
+                    <td>236 PLN</td>
+                    <td>189 ₪</td>
+                </tr>
+                <tr>
+                    <td>רכבל פתוח</td>
+                    <td>227 PLN</td>
+                    <td>182 ₪</td>
+                </tr>
+                <tr>
+                    <td>רכבל טטרה לומניצקי (אופציונלי)</td>
+                    <td>173 €</td>
+                    <td>606 ₪</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p class="signature">כל הזכויות שמורות להדס טרכטר - יועצת טיולים בארץ ובעולם 050-5685356.</p>
+        <p class="copyright">אין להעביר ללא אישור מפורש. העובר על כך עובר על גזל לפי דין תורה וחוקי המקום.</p>
+    </footer>
+
+</body>
+</html>"""
+
+with open('/mnt/data/itinerary_dashboard.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("HTML file created successfully.")
